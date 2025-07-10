@@ -2,7 +2,7 @@ import React from 'react'
 import dummyData from '../dummyData';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useState } from 'react';
-import Card from './Card';
+import Column from './Columns';
 
 export default function Main() {
   const [data, setData] = useState(dummyData);
@@ -63,45 +63,29 @@ export default function Main() {
     }
   }
 
+  // const handleAddTask = (columnId) => {
+  //   const newData = data.map((col) => {
+  //     if (col.id === columnId) {
+  //       const newTask = {
+  //         id: uuidv4(),
+  //         title: "新しいタスク",
+  //       };
+  //       return { ...col, tasks: [...col.tasks, newTask] };
+  //     }
+  //     return col;
+  //   });
+  //   setData(newData);
+  //   console.log(columnId);
+  // };
+  
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable  droppableId="all-columns" direction="horizontal" type="COLUMN" >
         {(provided) => (
            <div className="trello" ref={provided.innerRef} {...provided.draggableProps}>
             {data.map((section, index) => (
-              <Draggable draggableId={section.id} index={index} key={section.id}>
-                {(provided, snapshot) => (
-                  <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className='trello-section'
-                    style={{
-                    ...provided.draggableProps.style,
-                    opacity: snapshot.isDragging ? "0.3" : "1",
-                    }}
-                  >
-                    <div className="trello-section-title">{section.title}</div>
-                    <Droppable droppableId={section.id} type="TASK">
-                      {(provided) => (
-                        <div ref={provided.innerRef} {...provided.droppableProps}>
-                          {section.tasks.map((task, index) => (
-                            <Draggable key={task.id} draggableId={task.id} index={index}>
-                              {(provided, snapshot) => (
-                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                    style={{
-                                      ...provided.draggableProps.style,
-                                      opacity: snapshot.isDragging ? "0.3" : "1",
-                                    }}
-                                >
-                                  <Card>{task.title}</Card>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </div>        
-                )}
-              </Draggable>
+              <Column key={section.id} section={section} index={index} />
             ))}
             {provided.placeholder}
            </div>
