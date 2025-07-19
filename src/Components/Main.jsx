@@ -1,11 +1,29 @@
 import React from 'react'
-import dummyData from '../dummyData';
+import dummyData from '../initialData';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useState } from 'react';
 import Column from './Columns';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Main() {
   const [data, setData] = useState(dummyData);
+
+  const handleAddTask = (sectionId) => {
+    const newTask = data.map((section) => {
+      if (section.id === sectionId) {
+        const newTask = {
+          id: uuidv4(),
+          title: "新しいタスク",
+        };
+        return {
+          ...section,
+          tasks: [...section.tasks, newTask],
+        };
+      }
+      return section;
+    });
+    setData(newTask);
+  };
 
   const onDragEnd = (result) => {
     const { destination, source, type } = result;
@@ -77,6 +95,7 @@ export default function Main() {
   //   setData(newData);
   //   console.log(columnId);
   // };
+
   
 
   return (
@@ -85,7 +104,7 @@ export default function Main() {
         {(provided) => (
            <div className="trello" ref={provided.innerRef} {...provided.draggableProps}>
             {data.map((section, index) => (
-              <Column key={section.id} section={section} index={index} />
+              <Column key={section.id} section={section} index={index} handleAddTask={handleAddTask} />
             ))}
             {provided.placeholder}
            </div>
