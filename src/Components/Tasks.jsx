@@ -2,7 +2,7 @@ import React from 'react'
 import Card from './Card';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-export default function Task({ section }) {
+export default function Task({ section, handleDeleteTask }) {
   return (
     <Droppable droppableId={section.id} type="TASK">
         {(provided) => (
@@ -16,7 +16,10 @@ export default function Task({ section }) {
                             opacity: snapshot.isDragging ? "0.3" : "1",
                             }}
                         >
-                        <Card>{task.title}</Card>
+                        <Card>
+                            {task.title}
+                            <button onClick={() => handleDeleteTask(section.id, task.id)}>🗑️</button>
+                        </Card>
                         </div>
                     )}
                     </Draggable>

@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useState } from "react";
 import dummyData from '../initialData';
 
-export default function Column( { section, index, handleAddTask } ) {
+export default function Column( { section, index, handleAddTask, handleDeleteTask } ) {
 
   // const [data, setState] = useState(dummyData);
 
@@ -40,7 +40,7 @@ export default function Column( { section, index, handleAddTask } ) {
             <br />
             <button onClick={() => handleAddTask(section.id)}>タスクの追加</button>
           </div>
-          <Task section={section}></Task>
+          <Task section={section} handleDeleteTask={handleDeleteTask} />
         </div>
       )}
     </Draggable>
@@ -49,6 +49,6 @@ export default function Column( { section, index, handleAddTask } ) {
 
 
 // 続きの内容(引き継ぎ)　////////////////////////////
-//　新しいタスクの追加・ロジック構造
-// 　クリックしたボタンのidの取得方法について調査
-// pushの戻り値は数値
+//　タスク追加機能完了
+// 追加したタスクの内容を変更できるようにする
+// ブランチを作って機能追加していく
