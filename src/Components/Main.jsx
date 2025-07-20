@@ -25,6 +25,19 @@ export default function Main() {
     setData(newTask);
   };
 
+  const handleDeleteTask = (sectionId, taskId) => {
+    const newData = data.map((section) => {
+      if(section.id === sectionId) {
+        return {
+          ...section,
+          tasks: section.tasks.filter(task => task.id !== taskId)
+        };
+      }
+      return section; 
+    });
+    setData(newData);
+  };
+
   const onDragEnd = (result) => {
     const { destination, source, type } = result;
 
@@ -104,7 +117,7 @@ export default function Main() {
         {(provided) => (
            <div className="trello" ref={provided.innerRef} {...provided.draggableProps}>
             {data.map((section, index) => (
-              <Column key={section.id} section={section} index={index} handleAddTask={handleAddTask} />
+              <Column key={section.id} section={section} index={index} handleAddTask={handleAddTask} handleDeleteTask={handleDeleteTask} />
             ))}
             {provided.placeholder}
            </div>
